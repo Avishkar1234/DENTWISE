@@ -1,23 +1,23 @@
 "use client";
 
-import {
-  SignedOut,
-  SignOutButton,
-  SignUpButton,
-  SignedIn,
-} from "@clerk/nextjs";
+import Header from "@/components/landing/Header";
+import HowItWorks from "../components/landing/HowItWorks";
+import WhatToAsk from "@/components/landing/WhatToAsk";
+import PricingSection from "@/components/landing/PricingSection";
+import CTA from "@/components/landing/CTA";
+import Footer from "@/components/landing/Footer";
+import Hero from "@/components/landing/Hero";
 
 export default function Home() {
   return (
-    <div className="flex flex-col m-2 p-2 text-white bg-black rounded-2xl w-fit gap-2 mb-3">
-      <h1 className="mb-2 bg-blue-500">Home Page</h1>
-      <SignedOut>
-        <SignUpButton mode="modal">SignUp</SignUpButton>
-      </SignedOut>
-
-      <SignedIn>
-        <SignOutButton>Logout</SignOutButton>
-      </SignedIn>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <Hero />
+      <HowItWorks />
+      <WhatToAsk />
+      <PricingSection />
+      <CTA />
+      <Footer />
     </div>
   );
 }
