@@ -14,10 +14,10 @@ export default function Home() {
       <Header />
       <Hero />
       <HowItWorks />
-      {/* <WhatToAsk />
+      <WhatToAsk />
       <PricingSection />
       <CTA />
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }
