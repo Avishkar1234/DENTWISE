@@ -1,6 +1,5 @@
 import AppointmentConfimationEmail from "@/components/emails/AppointmentConfimationEmail";
 import resend from "@/lib/resend";
-import { AppointmentStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -19,15 +18,13 @@ export async function POST(request: Request) {
 
     if (!userEmail || !doctorName || !appointmentDate || !appointmentTime) {
       return NextResponse.json(
-        { error: "Missing requried fields" },
+        { error: "Missing required fields" },
         { status: 400 },
       );
     }
 
-    // send the email
-
     const { data, error } = await resend.emails.send({
-      from: "DentWise <no-reply@resend.dev>", // do not use this in prodcution, only for testing purposes
+      from: "DentWise <no-reply@resend.dev>",
       to: [userEmail],
       subject: "Appointment Confirmation - DentWise",
       react: AppointmentConfimationEmail({
@@ -42,6 +39,7 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Resend error:", error);
+
       return NextResponse.json(
         { error: "Failed to send email" },
         { status: 500 },
@@ -55,5 +53,12 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error) {}
+  } catch (error) {
+    console.error("API error:", error);
+
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
 }
