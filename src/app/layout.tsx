@@ -44,7 +44,8 @@ export default function RootLayout({
               },
             }}
           >
-            <UserSync />
+            {/* this is done in the home page component */}
+            {/* <UserSync /> */}
             <Toaster />
             {children}
           </ClerkProvider>

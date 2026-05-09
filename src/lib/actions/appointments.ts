@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "../prisma";
 import { Erica_One } from "next/font/google";
 import { tr } from "date-fns/locale";
+import { Appointment, AppointmentStatus } from "@prisma/client";
 
 function transformAppointment(appointment: any) {
   return {
@@ -31,7 +32,7 @@ export async function getAppointments() {
       orderBy: { createdAt: "desc" },
     });
 
-    return appointments;
+    return appointments.map(transformAppointment);
   } catch (error) {
     console.log("Error fetching appointments", error);
     throw new Error("Failed to fetch appointments");
@@ -172,5 +173,22 @@ export async function bookappointment(input: BookAppointmentInput) {
   } catch (error) {
     console.log("Error booking appointment", error);
     throw new Error("Failed to book appointment. Please try again later.");
+  }
+}
+
+export async function updateAppointmentStatus(input: {
+  id: string;
+  status: AppointmentStatus;
+}) {
+  try {
+    const appointment = await prisma.appointment.update({
+      where: { id: input.id },
+      data: { status: input.status },
+    });
+
+    return appointment;
+  } catch (error) {
+    console.error("Error updating appointment:", error);
+    throw new Error("Failed to update appointment");
   }
 }
